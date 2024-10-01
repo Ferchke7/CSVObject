@@ -72,9 +72,13 @@
                 }
             }
         }
-        
+        public void MakeNull()
+        {
+            GetListOfCsvFiles = null;
+            ReadCsvFile = null;
+        }
     }
-
+    
     public class DynamicRow
     {
         public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
