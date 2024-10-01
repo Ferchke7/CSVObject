@@ -79,14 +79,14 @@
             
         }
         //MAPPING THE VALUE
-        public void MapValue(List<DynamicRow> information, out List<BasicClassToMap> resultOfMappedObject) 
-        {
-            information.ForEach(u =>
-            {
+        //public void MapValue(List<DynamicRow> information, out List<BasicClassToMap> resultOfMappedObject) 
+        //{
+        //    information.ForEach(u =>
+        //    {
 
-            });
-            return;
-        }
+        //    });
+        //    return;
+        //}
     }
     
     public class DynamicRow
