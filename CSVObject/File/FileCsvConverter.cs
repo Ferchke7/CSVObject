@@ -24,8 +24,8 @@
 
             using (StreamReader reader = new StreamReader(filePath))
             {
-                string headerLine = reader.ReadLine();
-                string[] headers = headerLine?.Split(',');
+                string? headerLine = reader.ReadLine();
+                string[]? headers = headerLine?.Split(',');
 
                 // Read the rest of the data
                 while (!reader.EndOfStream)
@@ -52,7 +52,7 @@
             return string.Join("\n", filePaths);
         }
 
-        public void MoveFileAccordingly(string filename, bool isSuccess = true)
+        public void MoveFileByResult(string filename, bool isSuccess = true)
         {
             string sourcePath = filename;
             string targetDirectory = isSuccess ? @"C:\success\" : @"C:\failed\";
@@ -76,6 +76,16 @@
         {
             GetListOfCsvFiles = null;
             ReadCsvFile = null;
+            
+        }
+        //MAPPING THE VALUE
+        public void MapValue(List<DynamicRow> information, out List<BasicClassToMap> resultOfMappedObject) 
+        {
+            information.ForEach(u =>
+            {
+
+            });
+            return;
         }
     }
     
@@ -83,4 +93,6 @@
     {
         public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
     }
+
+    public record BasicClassToMap(string lotid, string someinformation, Dictionary<string, object> ValueCollection);
 }
