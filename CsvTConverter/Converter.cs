@@ -5,6 +5,9 @@ namespace CSVObject.File
         Func<string, List<DynamicRow>> ReadCsvFile { get; set; }
         Func<string, string> GetListOfCsvFiles { get; set; }
     }
+    //TODO make interface for Reader and Converter
+    //TODO make itterator 
+    
     
     public class CsvConverter : IFileCsvConverter
     {
@@ -28,7 +31,6 @@ namespace CSVObject.File
                 string? headerLine = reader.ReadLine();
                 string[]? headers = headerLine?.Split(',');
 
-                // Read the rest of the data
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
@@ -37,8 +39,7 @@ namespace CSVObject.File
                     row.FilePath = filePath;
                     for (int i = 0; i < headers.Length; i++)
                     {
-                        row.Fields[headers[i].Trim()] = fields.Length > i ? fields[i] : string.Empty;
-                        
+                        row.Fields[headers[i].Trim()] = fields.Length > i ? fields[i] : string.Empty;                    
                     }
 
                     rows.Add(row);
@@ -52,6 +53,10 @@ namespace CSVObject.File
         {
             var filePaths = Directory.GetFiles(directoryPath, "*_*.csv");
             return string.Join("\n", filePaths);
+        }
+
+        public void GetFileByFifoOnlyByRequest() {
+
         }
 
         public void MoveFileFIFO(string filename, bool isSuccess = true)
@@ -79,6 +84,7 @@ namespace CSVObject.File
 
         public void DeleteCopiedFiles(string sourcePath)
         {
+            
             FileInfo file = new(sourcePath);
             if (file.Exists)
             {
@@ -108,8 +114,7 @@ namespace CSVObject.File
                 Console.WriteLine(item);
             }
             return csvFiles;
-        }
-        
+        }                
     }
     
     public class DynamicRow
@@ -118,7 +123,9 @@ namespace CSVObject.File
         public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
         public Func<string, string> DeletFile { get; set; }
 
-        public bool HasCopied {get; set;} = true;
+        //TODO
+        public BasicClassToMap basicClassToMap {get; set;}
+        public bool HasCopied {get; set;} = false;
        
         public void DeleteFileMethod() {
             FileInfo file = new(FilePath);
@@ -132,5 +139,5 @@ namespace CSVObject.File
     }
 
     public record BasicClassToMap(string lotid, string someinformation, Dictionary<string, object> ValueCollection);
-
+    
 }
