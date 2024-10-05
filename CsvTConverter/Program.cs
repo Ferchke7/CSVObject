@@ -13,11 +13,19 @@ foreach(string fileName in getAll) {
 int number = 1;
 allinforamtion.ForEach(x => {
     x.ForEach(u => {
-        Console.WriteLine("Name Of File" + u.fileName);
-        csvConverter.MoveFileFIFO(u.fileName, number is 1);
+        Console.WriteLine("Name Of File" + u.FilePath);
+        csvConverter.MoveFileFIFO(u.FilePath, number is 1);
         int v = number == 1 ? 0 : 1;
         number = v;
-        csvConverter.DeleteCopiedFiles(u.fileName);
+        
+    });
+});
+
+allinforamtion.ForEach(x => {
+    x.ForEach(u => {
+        if(u.HasCopied) {
+            u.DeleteFileMethod();
+        }
     });
 });
 

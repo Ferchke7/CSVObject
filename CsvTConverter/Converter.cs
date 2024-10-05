@@ -34,7 +34,7 @@ namespace CSVObject.File
                     string line = reader.ReadLine();
                     string[] fields = line.Split(',');
                     DynamicRow row = new DynamicRow();
-                    row.fileName = filePath;
+                    row.FilePath = filePath;
                     for (int i = 0; i < headers.Length; i++)
                     {
                         row.Fields[headers[i].Trim()] = fields.Length > i ? fields[i] : string.Empty;
@@ -57,13 +57,13 @@ namespace CSVObject.File
         public void MoveFileFIFO(string filename, bool isSuccess = true)
         {
             string sourcePath = filename;
-            string targetDirectory = isSuccess ? @"/home/ferdavs/csvProject/csvfiles/success" : @"/home/ferdavs/csvProject/csvfiles/failed";
+            string targetDirectory = isSuccess ? @"/home/ferdavs/csvProject/csvfiles/success" : @"/home/ferdavs/csvProject/csvfiles/success";
             string targetPath = Path.Combine(targetDirectory, Path.GetFileName(filename));
 
-            if (!Directory.Exists(targetDirectory))
-            {
-                Directory.CreateDirectory(targetDirectory);
-            }
+            // if (!Directory.Exists(targetDirectory))
+            // {
+            //     Directory.CreateDirectory(targetDirectory);
+            // }
 
             using (FileStream sourceStream = new FileStream(sourcePath, FileMode.Open, FileAccess.Read))
             {
@@ -114,8 +114,21 @@ namespace CSVObject.File
     
     public class DynamicRow
     {
-        public string fileName { get; set; }
+        public string FilePath { get; set; }
         public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
+        public Func<string, string> DeletFile { get; set; }
+
+        public bool HasCopied {get; set;} = true;
+       
+        public void DeleteFileMethod() {
+            FileInfo file = new(FilePath);
+            if (file.Exists)
+            {
+                System.Console.WriteLine($"Deleting a file{ file.Name }");
+                file.Delete();
+            }
+            
+        }
     }
 
     public record BasicClassToMap(string lotid, string someinformation, Dictionary<string, object> ValueCollection);
