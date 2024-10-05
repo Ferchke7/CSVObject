@@ -1,8 +1,28 @@
 ﻿using CSVObject.File;
 
-CsvConverter csvConverter = new CsvConverter();
+CsvConverter csvConverter = new();
+string[] temp = csvConverter.GetAllCsvFiles();
+List<List<DynamicRow>> information = new();
+foreach (string filepath in temp)
+{
+    information.Add(csvConverter.ReadCsvFile(filepath));
+}
 
-List<DynamicRow> list = csvConverter.ReadCsvFile(@"C:\test.csv");
-string filePaths = csvConverter.GetListOfCsvFiles(@"C:\");
-csvConverter.MoveFileByResult(@"C:\test.csv",false);
-//var result = csvConverter.MapTheValue<BasicClassToMap>(list);
+information.ForEach(x =>
+{
+    x.ForEach(y =>
+    {
+        Console.WriteLine(y.fileName);
+        Console.WriteLine();
+        csvConverter.MoveFileByResult(y.fileName, false);
+        Console.WriteLine(y.Fields.Values);
+        Console.WriteLine("New val");
+    });
+});
+
+var informatio1 = information.Count;
+Console.WriteLine(informatio1);
+
+
+
+
