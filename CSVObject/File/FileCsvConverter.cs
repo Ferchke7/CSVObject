@@ -74,8 +74,30 @@
                 }
                 
             }
-            //FileInfo newFile = new(sourcePath);
-            //newFile.Delete();
+            
+        }
+
+        public void DeleteCopiedFiles(string sourcePath)
+        {
+            FileInfo file = new(sourcePath);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            else
+            {
+                throw new Exception($"Error file {sourcePath} doesn't exist");
+            }
+        }
+        public void BulkMoveFile(string folderName)
+        {
+            string[] csvFilesList = GetAllCsvFiles(folderName);
+            
+            for(int i = 0; i < csvFilesList.Length; i++)
+            {
+                MoveFileFIFO(csvFilesList[i]);
+                DeleteCopiedFiles(csvFilesList[i]);
+            }
         }
         public string[] GetAllCsvFiles(string folder = @"C:\")
         {
